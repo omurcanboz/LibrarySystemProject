@@ -27,16 +27,6 @@ public class Book implements Serializable {
 		copies = new BookCopy[]{new BookCopy(this, 1, true)};	
 	}
 	
-	public void updateCopies(BookCopy copy) {
-		for(int i = 0; i < copies.length; ++i) {
-			BookCopy c = copies[i];
-			if(c.equals(copy)) {
-				copies[i] = copy;
-				
-			}
-		}
-	}
-
 	public List<Integer> getCopyNums() {
 		List<Integer> retVal = new ArrayList<>();
 		for(BookCopy c : copies) {
