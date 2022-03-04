@@ -21,8 +21,8 @@ public class DataAccessFacade implements DataAccess {
 	}
 	
 	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
-			+ "/dataaccess/storage";
-	public static final String DATE_PATTERN = "MM/dd/yyyy";
+      + "\\Library System\\src\\dataaccess\\storage";
+  public static final String DATE_PATTERN = "MM/dd/yyyy";
 	
 	//implement: other save operations
 	public void saveNewMember(LibraryMember member) {
@@ -47,8 +47,8 @@ public class DataAccessFacade implements DataAccess {
 	public void saveMembers(HashMap<String, LibraryMember> mems) {
 		saveToStorage(StorageType.MEMBERS, mems);
 	}
-	public void deleteBooks() throws IOException {
-	  deleteStorage(StorageType.BOOKS);
+	public void deleteDB(StorageType table) throws IOException {
+	  deleteStorage(table);
 	}
 	
 	

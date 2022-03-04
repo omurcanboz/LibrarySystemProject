@@ -9,9 +9,6 @@ import business.Book;
 import dataaccess.DataAccessFacade;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -94,12 +91,12 @@ public class AddBookScreenController extends Stage {
     books.put(book.getIsbn(), book);
     da.saveBooks(books);
 
-    return copyController.addCopiesToBookAndSave(da, books, book, numOfCopies < 2 ? 1 : numOfCopies - 1);
+    return copyController.addCopiesAndSave(da, books, book, numOfCopies < 2 ? 1 : numOfCopies - 1);
   }
 
   public void backToLogin(ActionEvent event) {
     try {
-		LoginController.showLoginScreen(event);
+      LoginController.showLoginScreen(event);
 
     } catch (Exception e) {
       alertError.setContentText(e.getMessage());
@@ -135,7 +132,6 @@ public class AddBookScreenController extends Stage {
     }
   }
 
-
   public boolean saveAuthor() {
     String firstName = authorName.getText();
     String lastName = authorLastName.getText();
@@ -160,6 +156,11 @@ public class AddBookScreenController extends Stage {
     HashMap<String, Book> books = da.readBooksMap();
 
     Book book = DataUtility.getBook(books, addedBook);
+    if(book == null) {
+      alertInfo.setContentText("The book does not exist!");
+      alertInfo.show();
+      return false;
+    }
     book.getAuthors().add(author);
     books.put(book.getIsbn(), book);
     da.saveBooks(books);
@@ -174,7 +175,7 @@ public class AddBookScreenController extends Stage {
         alertInfo.show();
         alertInfo.setOnCloseRequest(e -> {
           if (alertInfo.getResult() == ButtonType.OK) {
-        	  backToLogin(event);
+            backToLogin(event);
           }
         });
       }

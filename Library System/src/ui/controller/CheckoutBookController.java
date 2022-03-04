@@ -2,14 +2,11 @@ package ui.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Stream;
 
 import business.Book;
 import business.BookCopy;
@@ -24,14 +21,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import utility.DataUtility;
+import utility.HelperUtility;
 import utility.ObjectFactory;
 
 public class CheckoutBookController extends Stage {
@@ -94,11 +91,9 @@ public class CheckoutBookController extends Stage {
           alertError.setContentText("ISBN cannot be found!");
           alertError.show();
         } else {
-
           BookCopy bookCopy = checkAvailabilityAndSet(theBook);
           if (bookCopy != null) {
             books.put(theBook.getIsbn(), theBook);
-
             CheckoutEntry entry = ObjectFactory.newCheckOutEntry(bookCopy, new Date(),
                 calculateDueDate(theBook.getMaxCheckoutLength(), new Date()));
             theMember.getCheckoutRecord().getCheckoutEntries().add(entry);
@@ -138,19 +133,17 @@ public class CheckoutBookController extends Stage {
     c.setTime(date);
     c.add(Calendar.DAY_OF_MONTH, dateLong);
     return c.getTime();
-
   }
 
   public BookCopy checkAvailabilityAndSet(Book book) {
-    BookCopy nextAvailable = book.getNextAvailableCopy();
-
-    if (nextAvailable == null) {
+    BookCopy availableBook = book.getNextAvailableCopy();
+    if (availableBook == null) {
       alertError.setContentText("Book copy does not available!");
       alertError.show();
     } else {
-      nextAvailable.changeAvailability();
+      availableBook.changeAvailability();
     }
-    return nextAvailable;
+    return availableBook;
   }
 
   public void printCheckoutDetails(ActionEvent event) {
@@ -159,36 +152,23 @@ public class CheckoutBookController extends Stage {
     HashMap<String, LibraryMember> members = daf.readMemberMap();
     List<CheckoutEntry> list = null;
 
-    if (memId != null || !memId.isEmpty()) {
-      if (DataUtility.getLibraryMember(members, memId) != null) {
-        for (Entry<String, LibraryMember> entry : members.entrySet()) {
-          String entryId = entry.getKey();
-          LibraryMember member = entry.getValue();
-          if (entryId.equals(memId)) {
-            list = member.getCheckoutRecord().getCheckoutEntries();
-          }
-        }
+    if (memId != null && !memId.isEmpty() && DataUtility.getLibraryMember(members, memId) != null) {
 
-        Node node = (Node) event.getSource();
-        Stage thisStage = (Stage) node.getScene().getWindow();
-        thisStage.close();
-        try {
-          FXMLLoader loader = new FXMLLoader(getClass().getResource("../ShowCheckoutRecord.fxml"));
-          loader.setController(this);
-          Parent root = loader.load();
-          Scene scene = new Scene(root);
-          setScene(scene);
-          setTitle("Member's Checkout Record Details");
-          showCheckoutRecord(list);
-          show();
-        } catch (IOException e1) {
-          e1.printStackTrace();
-        }
+      list = DataUtility.getCheckoutEntries(members, memId);
+
+      Node node = (Node) event.getSource();
+      Stage thisStage = (Stage) node.getScene().getWindow();
+      thisStage.close();
+      try {
+        setScene(HelperUtility.createScene(event, getClass(), "../ShowCheckoutRecord.fxml"));
+        setTitle("Member's Checkout Record Details");
+        showCheckoutRecord(list);
+        show();
+      } catch (IOException e1) {
+        e1.printStackTrace();
       }
 
     }
-
-
 
   }
 
@@ -208,14 +188,6 @@ public class CheckoutBookController extends Stage {
     checkoutRecordTable.getItems().setAll(list);
   }
 
-  /**
-   * This method checks books, which is not available and overdue by their
-   * borrowers. Iterate all members and their checkout entry records. If input
-   * ISBN same with that record ISBN, then check for availability. If it is not
-   * then compare its due date with today.
-   * 
-   * @param event
-   */
   public void checkOverdueBooks(ActionEvent event) {
     oTableISBN.setCellValueFactory(new PropertyValueFactory<CheckoutDetails, String>("isbn"));
     oTableTitle.setCellValueFactory(new PropertyValueFactory<CheckoutDetails, String>("title"));
@@ -243,13 +215,5 @@ public class CheckoutBookController extends Stage {
     }
 
   }
-
- 
-
-  public String abbreviateString(String input, int maxLength) {
-    if (input.length() <= maxLength)
-      return input;
-    else
-      return input.substring(0, maxLength - 2) + "..";
-  }
+  
 }

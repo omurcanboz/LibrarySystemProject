@@ -14,6 +14,7 @@ import business.BookCopy;
 import business.CheckoutEntry;
 import business.CheckoutRecord;
 import business.LibraryMember;
+import dataaccess.DataAccessFacade.StorageType;
 
 /**
  * This class loads data into the data repository and also
@@ -29,14 +30,14 @@ public class TestData {
 	
 	
 	public static void main(String[] args) throws IOException {
-//		TestData td = new TestData();
-//		td.bookData();
-//		td.libraryMemberData();
-//		td.userData();
+		TestData td = new TestData();
+		td.bookData();
+		td.libraryMemberData();
+		td.userData();
 		DataAccess da = new DataAccessFacade();
-//		da.deleteBooks();
-//		System.out.println(da.readBooksMap());
-//		System.out.println(da.readUserMap());
+//		da.deleteDB(StorageType.BOOKS);
+		System.out.println(da.readBooksMap());
+		System.out.println(da.readUserMap());
 		for (Book book : da.readBooksMap().values()) {
       for (BookCopy c : book.getCopies()) {
         System.out.println(c.getBook().getTitle() + " " + c.getBook().getIsbn() + " " + c.isAvailable());

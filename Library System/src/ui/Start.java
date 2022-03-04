@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import business.ControllerInterface;
-import business.SystemController;
+import controller.SystemController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

@@ -1,7 +1,8 @@
-package business;
+package controller;
 
 import java.util.HashMap;
 
+import business.ControllerInterface;
 import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;

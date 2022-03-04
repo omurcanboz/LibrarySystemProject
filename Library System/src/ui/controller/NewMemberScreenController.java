@@ -6,17 +6,14 @@ import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import utility.DataUtility;
 import utility.ObjectFactory;
 
-//fx:controller="business.SystemController"
 public class NewMemberScreenController extends Stage {
   @FXML
   private TextField firstName;
@@ -66,7 +63,7 @@ public class NewMemberScreenController extends Stage {
 
   public void backToLogin(ActionEvent event) {
     try {
-		LoginController.showLoginScreen(event);
+      LoginController.showLoginScreen(event);
 
     } catch (Exception e1) {
       e1.printStackTrace();
