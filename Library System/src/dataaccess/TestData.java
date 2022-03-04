@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map.Entry;
 
 import business.Address;
 import business.Author;
@@ -30,14 +29,15 @@ public class TestData {
 	
 	
 	public static void main(String[] args) throws IOException {
-		TestData td = new TestData();
-		td.bookData();
-		td.libraryMemberData();
-		td.userData();
+//		TestData td = new TestData();
+//		td.bookData();
+//		td.libraryMemberData();
+//		td.userData();
 		DataAccess da = new DataAccessFacade();
-//		da.deleteDB(StorageType.BOOKS);
+//		da.deleteDB(StorageType.USERS);
 		System.out.println(da.readBooksMap());
 		System.out.println(da.readUserMap());
+		System.out.println(da.readMemberMap());
 		for (Book book : da.readBooksMap().values()) {
       for (BookCopy c : book.getCopies()) {
         System.out.println(c.getBook().getTitle() + " " + c.getBook().getIsbn() + " " + c.isAvailable());

@@ -13,11 +13,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import utility.CharacterUtility;
 import utility.DataUtility;
+import utility.HelperUtility;
 
 public class AddBookCopyController extends Stage {
   @FXML
   private TextField serialNum;
-
   @FXML
   private TextField copyNumbers;
 
@@ -48,7 +48,7 @@ public class AddBookCopyController extends Stage {
             alertSuccess.show();
             alertSuccess.setOnCloseRequest(e -> {
               if (alertSuccess.getResult() == ButtonType.OK) {
-                backToLogin(event);
+                HelperUtility.backToMain(event);
               }
             });
           } else {
@@ -71,12 +71,5 @@ public class AddBookCopyController extends Stage {
     return true;
   }
 
-  public void backToLogin(ActionEvent event) {
-    try {
-      LoginController.showLoginScreen(event);
-    } catch (Exception e1) {
-      e1.printStackTrace();
-    }
-  }
 
 }

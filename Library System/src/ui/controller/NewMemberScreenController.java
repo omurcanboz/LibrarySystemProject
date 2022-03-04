@@ -55,7 +55,7 @@ public class NewMemberScreenController extends Stage {
     infoAlert.show();
     infoAlert.setOnCloseRequest(e -> {
       if (infoAlert.getResult() == ButtonType.OK) {
-        backToLogin(event);
+        clear();
       }
     });
     return true;
@@ -68,6 +68,16 @@ public class NewMemberScreenController extends Stage {
     } catch (Exception e1) {
       e1.printStackTrace();
     }
+  }
+
+  public void clear() {
+    firstName.clear();
+    lastName.clear();
+    telephone.clear();
+    street.clear();
+    city.clear();
+    state.clear();
+    zip.clear();
   }
 
 }

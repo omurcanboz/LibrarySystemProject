@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ui.controller.MainScreenController;
 
 public class HelperUtility {
 
@@ -17,6 +18,15 @@ public class HelperUtility {
     thisStage.close();
     Parent root = FXMLLoader.load(clazz.getResource(path));
     return new Scene(root);
+  }
+  
+  public static void backToMain(ActionEvent event) {
+    try {
+      MainScreenController mainScreenController = new MainScreenController();
+      mainScreenController.backToMain(event);
+    } catch (Exception e1) {
+      e1.printStackTrace();
+    }
   }
 
 }

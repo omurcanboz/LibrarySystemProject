@@ -5,6 +5,7 @@ import dataaccess.Auth;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -14,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
+import ui.Start;
 import utility.HelperUtility;
 
 public class MainScreenController extends Stage {
@@ -73,62 +75,13 @@ public class MainScreenController extends Stage {
     }
 
   }
-
-  public void addNewMember(ActionEvent event) {
+  
+  public void backToMain(ActionEvent event) {
     try {
-      setScene(HelperUtility.createScene(event, getClass(), "../NewMemberScreen.fxml"));
-      setTitle("Adding New Member Window");
-      show();
-    } catch (Exception e1) {
-      e1.printStackTrace();
-    }
-  }
-
-  public void addNewBook(ActionEvent event) {
-    try {
-      setScene(HelperUtility.createScene(event, getClass(), "../AddNewBookScreen.fxml"));
-      setTitle("Adding New Book Window");
-      show();
-    } catch (Exception e1) {
-      e1.printStackTrace();
-    }
-  }
-
-  public void showAddBookCopyScreen(ActionEvent event) {
-    try {
-      setScene(HelperUtility.createScene(event, getClass(), "../AddBookCopy.fxml"));
-      setTitle("Add Book Copy Window");
-      show();
-    } catch (Exception e1) {
-      e1.printStackTrace();
-    }
-  }
-
-  public void showPrintCheckoutDetailsScreen(ActionEvent event) {
-    try {
-      setScene(HelperUtility.createScene(event, getClass(), "../PrintCheckoutDetails.fxml"));
-      setTitle("Print Checkout Details Window");
-      show();
-    } catch (Exception e1) {
-      e1.printStackTrace();
-    }
-  }
-
-  public void showOverdueBookScreen(ActionEvent event) {
-    try {
-      setScene(HelperUtility.createScene(event, getClass(), "../CheckOverdue.fxml"));
-      setTitle("Check Overdue Books Window");
-      show();
-    } catch (Exception e1) {
-      e1.printStackTrace();
-    }
-  }
-
-  public void checkoutBook(ActionEvent event) {
-    try {
-      setScene(HelperUtility.createScene(event, getClass(), "../CheckoutBook.fxml"));
-      setTitle("Book Checkout Window");
-      show();
+      Node node = (Node) event.getSource();
+      Stage thisStage = (Stage) node.getScene().getWindow();
+      thisStage.close();
+      showMainScreen();
     } catch (Exception e1) {
       e1.printStackTrace();
     }

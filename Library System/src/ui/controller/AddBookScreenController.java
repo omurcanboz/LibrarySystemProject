@@ -167,7 +167,6 @@ public class AddBookScreenController extends Stage {
     return true;
   }
 
-
   public void saveAuthorEvent(ActionEvent event) {
     try {
       if (saveAuthor()) {
@@ -175,7 +174,7 @@ public class AddBookScreenController extends Stage {
         alertInfo.show();
         alertInfo.setOnCloseRequest(e -> {
           if (alertInfo.getResult() == ButtonType.OK) {
-            backToLogin(event);
+            HelperUtility.backToMain(event);
           }
         });
       }
@@ -185,4 +184,5 @@ public class AddBookScreenController extends Stage {
     }
 
   }
+  
 }
