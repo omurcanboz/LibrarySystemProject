@@ -40,7 +40,7 @@ public class LoginController extends Stage {
       Node node = (Node) event.getSource();
       Stage thisStage = (Stage) node.getScene().getWindow();
       thisStage.close();
-      MainScreenController mainScreenController = new MainScreenController();
+      MainController mainScreenController = new MainController();
       mainScreenController.showMainScreen();
 
     } catch (Exception e) {

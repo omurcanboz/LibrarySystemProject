@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="600.0" maxWidth="540.0" minHeight="600.0" minWidth="540.0" prefHeight="600.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.AddBookScreenController">
+<GridPane maxHeight="600.0" maxWidth="540.0" minHeight="600.0" minWidth="540.0" prefHeight="600.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.BookController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="264.0000366210937" minWidth="10.0" prefWidth="264.0000366210937" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="301.0" minWidth="10.0" prefWidth="275.5999633789063" />
