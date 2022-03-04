@@ -2,6 +2,7 @@ package dataaccess;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -10,9 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import business.Book;
-import business.BookCopy;
 import business.LibraryMember;
-import dataaccess.DataAccessFacade.StorageType;
 
 
 public class DataAccessFacade implements DataAccess {
@@ -20,25 +19,47 @@ public class DataAccessFacade implements DataAccess {
 	enum StorageType {
 		BOOKS, MEMBERS, USERS;
 	}
-
-	public static final String OUTPUT_DIR = "D:/workspace/MIU-MPP/Day07 Project - Library/src/dataaccess/storage";
-//	public static final String OUTPUT_DIR = System.getProperty("user.dir")
-//			+ "\\src\\dataaccess\\storage";
+	
+	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
+			+ "/dataaccess/storage";
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
-
+	
 	//implement: other save operations
 	public void saveNewMember(LibraryMember member) {
 		HashMap<String, LibraryMember> mems = readMemberMap();
 		String memberId = member.getMemberId();
+		if(mems==null)
+			mems=new HashMap<String, LibraryMember>();
 		mems.put(memberId, member);
 		saveToStorage(StorageType.MEMBERS, mems);	
 	}
+	public void saveNewBook(Book book) {
+		HashMap<String, Book> books = readBooksMap();
+		String ISBN = book.getIsbn();
+		books.put(ISBN, book);
+		saveToStorage(StorageType.BOOKS, books);
+		books = readBooksMap();
+		books = readBooksMap();
+	}
+	public void saveBooks(HashMap<String, Book> books) {
+		saveToStorage(StorageType.BOOKS, books);
+	}
+	public void saveMembers(HashMap<String, LibraryMember> mems) {
+		saveToStorage(StorageType.MEMBERS, mems);
+	}
+	public void deleteBooks() throws IOException {
+	  deleteStorage(StorageType.BOOKS);
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	public  HashMap<String,Book> readBooksMap() {
 		//Returns a Map with name/value pairs being
 		//   isbn -> Book
-		return (HashMap<String,Book>) readFromStorage(StorageType.BOOKS);
+	  if(readFromStorage(StorageType.BOOKS) != null) {
+	    return (HashMap<String,Book>) readFromStorage(StorageType.BOOKS);
+	  }
+		return new HashMap<String,Book>();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -79,12 +100,20 @@ public class DataAccessFacade implements DataAccess {
 		saveToStorage(StorageType.MEMBERS, members);
 	}
 	
+	static void deleteStorage(StorageType type) throws IOException {
+	  Path path = FileSystems.getDefault().getPath(OUTPUT_DIR, type.toString());
+	  PrintWriter writer = new PrintWriter(new ObjectOutputStream(Files.newOutputStream(path)));
+	  writer.print("");
+	  writer.close();
+	}
+	
 	static void saveToStorage(StorageType type, Object ob) {
 		ObjectOutputStream out = null;
 		try {
 			Path path = FileSystems.getDefault().getPath(OUTPUT_DIR, type.toString());
 			out = new ObjectOutputStream(Files.newOutputStream(path));
 			out.writeObject(ob);
+			out.flush();
 		} catch(IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -119,7 +148,11 @@ public class DataAccessFacade implements DataAccess {
 	
 	final static class Pair<S,T> implements Serializable{
 		
-		S first;
+		/**
+     * 
+     */
+    private static final long serialVersionUID = 8749317258259649106L;
+    S first;
 		T second;
 		Pair(S s, T t) {
 			first = s;
@@ -143,7 +176,6 @@ public class DataAccessFacade implements DataAccess {
 		public String toString() {
 			return "(" + first.toString() + ", " + second.toString() + ")";
 		}
-		private static final long serialVersionUID = 5399827794066637059L;
 	}
 	
 }

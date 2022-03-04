@@ -1,0 +1,15 @@
+/Address.class
+/Author.class
+/Book.class
+/BookCopy.class
+/CheckoutDetails.class
+/CheckoutEntry.class
+/CheckoutRecord.class
+/ControllerInterface.class
+/LibraryMember.class
+/LibrarySystemException.class
+/LoginException.class
+/Main.class
+/Payment.class
+/Person.class
+/SystemController.class

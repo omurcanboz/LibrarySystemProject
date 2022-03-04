@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800" prefWidth="800" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TabPane fx:id="mainTabPane" layoutX="7.0" layoutY="7.0" prefHeight="800.0" prefWidth="800" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+            <Tab text="Welcome">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="welcomeLabel" layoutX="321.0" layoutY="174.0" text="Welcome user" />
+                        <Button fx:id="logoutButton" onAction="#backToLogin" layoutX="333.0" layoutY="218.0" mnemonicParsing="false" text="Log out" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+          <Tab fx:id="addNewMemberTab" text="Add New Member">
+            <content>
+                            <fx:include fx:id="addNewMember" source="NewMemberScreen.fxml" />
+              
+            </content>
+          </Tab>
+          <Tab fx:id="addNewBookTab" text="Add New Book">
+            <content>
+              <fx:include fx:id="addNewBookScreen" source="AddNewBookScreen.fxml" />
+            </content>
+          </Tab>
+            <Tab fx:id="checkoutBookTab" text="Checkout Book">
+               <content>
+              <fx:include fx:id="checkOutBook" source="CheckoutBook.fxml" />
+               
+               </content>
+            </Tab>
+            <Tab fx:id="addBookCopyTab" text="Add Book Copy">
+               <content>
+                      <fx:include fx:id="addBookCopy" source="AddBookCopy.fxml" />
+               </content>
+            </Tab>
+            <Tab fx:id="printCheckoutTab" text="Print Checkout">
+               <content>
+                      <fx:include fx:id="printCheckoutDetails" source="PrintCheckoutDetails.fxml" />
+               </content>
+            </Tab>
+            <Tab fx:id="checkOverdueTab" text="Check Overdue">
+               <content>
+                      <fx:include fx:id="checkOverDue" source="CheckOverdue.fxml" />
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

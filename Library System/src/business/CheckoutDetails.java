@@ -3,77 +3,77 @@ package business;
 import java.util.Date;
 
 public class CheckoutDetails {
+	
+	private String isbn;
+	private String title;
+	private Date checkoutDate;
+	private int copyNum;
+	private String member;
+	private Date dueDate;
+	
+	public CheckoutDetails(String isbn, String title, int copyNum, Date checkoutDate, Date dueDate) {
+		this.isbn = isbn;
+		this.title = title;
+		this.copyNum = copyNum;
+		this.checkoutDate = checkoutDate;
+		this.dueDate = dueDate;
+	}
+	
+	public CheckoutDetails(String isbn, String title, int copyNum, String member, Date dueDate) {
+		this.isbn = isbn;
+		this.title = title;
+		this.copyNum = copyNum;
+		this.member = member;
+		this.dueDate = dueDate;
+	}
 
-    private String isbn;
-    private String title;
-    private Date checkoutDate;
-    private int copyNum;
-    private String member;
-    private Date dueDate;
+	public String getIsbn() {
+		return isbn;
+	}
 
-    public CheckoutDetails(String isbn, String title, int copyNum, Date checkoutDate, Date dueDate) {
-        this.isbn = isbn;
-        this.title = title;
-        this.copyNum = copyNum;
-        this.checkoutDate = checkoutDate;
-        this.dueDate = dueDate;
-    }
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
 
-    public CheckoutDetails(String isbn, String title, int copyNum, String member, Date dueDate) {
-        this.isbn = isbn;
-        this.title = title;
-        this.copyNum = copyNum;
-        this.member = member;
-        this.dueDate = dueDate;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public String getIsbn() {
-        return isbn;
-    }
+	public Date getCheckoutDate() {
+		return checkoutDate;
+	}
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
+	public void setCheckoutDate(Date checkoutDate) {
+		this.checkoutDate = checkoutDate;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public Date getDueDate() {
+		return dueDate;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
+	}
+	
+	public int getCopyNum() {
+		return copyNum;
+	}
 
-    public Date getCheckoutDate() {
-        return checkoutDate;
-    }
+	public void setCopyNum(int copyNum) {
+		this.copyNum = copyNum;
+	}
 
-    public void setCheckoutDate(Date checkoutDate) {
-        this.checkoutDate = checkoutDate;
-    }
+	public String getMember() {
+		return member;
+	}
 
-    public Date getDueDate() {
-        return dueDate;
-    }
+	public void setMember(String member) {
+		this.member = member;
+	}
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public int getCopyNum() {
-        return copyNum;
-    }
-
-    public void setCopyNum(int copyNum) {
-        this.copyNum = copyNum;
-    }
-
-    public String getMember() {
-        return member;
-    }
-
-    public void setMember(String member) {
-        this.member = member;
-    }
-
-
+	
 }

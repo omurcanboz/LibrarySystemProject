@@ -1,0 +1,29 @@
+package utility;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
+
+import business.Book;
+import business.LibraryMember;
+
+public class DataUtility {
+  
+  public static LibraryMember getLibraryMember(HashMap<String, LibraryMember> libraryMembers, String id) {
+    for (Entry<String, LibraryMember> entry : libraryMembers.entrySet()) {
+      if (entry.getKey().equals(id)) {
+        return entry.getValue();
+      }
+    }
+    return null;
+  }
+  
+  public static Book getBook(HashMap<String, Book> books, String isbn) {
+    for (Entry<String, Book> entry : books.entrySet()) {
+      if (entry.getKey().equals(isbn)) {
+        return entry.getValue();
+      }
+    }
+    return null;
+  }
+
+}
