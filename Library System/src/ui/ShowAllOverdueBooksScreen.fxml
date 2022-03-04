@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.CheckoutBookController">
+   <children>
+      <Button layoutX="50.0" layoutY="71.0" mnemonicParsing="false" onAction="#listAllOverdueBooks" text="List All Overdue Books" />
+      <Label layoutX="34.0" layoutY="29.0" text="All Overdue Books">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+      <TableView fx:id="ovTable" layoutX="34.0" layoutY="111.0" prefHeight="440.0" prefWidth="700.0">
+        <columns>
+          <TableColumn fx:id="ovTableISBN" prefWidth="87.0" text="ISBN" />
+          <TableColumn fx:id="ovTableTitle" prefWidth="165.0" text="Title" />
+          <TableColumn fx:id="ovTableMemberID" prefWidth="109.0" text="Member ID" />
+          <TableColumn fx:id="ovTableMemberName" prefWidth="130.0" text="Member First Name" />
+          <TableColumn fx:id="ovTableMemberLastName" prefWidth="130.0" text="Member Last Name" />
+          <TableColumn fx:id="ovTableCheck" prefWidth="93.0" text="Checkout Date" />
+          <TableColumn fx:id="ovTableDue" prefWidth="93.0" text="Due Date" />
+          <TableColumn fx:id="ovTableLateFee" prefWidth="70.0" text="Late Fee" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

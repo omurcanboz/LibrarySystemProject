@@ -38,6 +38,8 @@ public class MainScreenController extends Stage {
   private Tab printCheckoutTab;
   @FXML
   private Tab checkOverdueTab;
+  @FXML
+  private Tab listAllOverdueTab;
 
   Alert alert = new Alert(AlertType.INFORMATION);
 

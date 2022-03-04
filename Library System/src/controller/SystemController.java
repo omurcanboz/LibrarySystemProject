@@ -11,20 +11,28 @@ import dataaccess.User;
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;
 	public static String userId = null;
-	
+
 	public void login(String id, String password) throws Exception {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();
+		// database empty exception catch
+
+		if (map == null) {
+			throw new Exception("Database is empty!");
+		}
+
 		if(!map.containsKey(id)) {
 			throw new Exception("ID " + id + " not found");
 		}
 		String passwordFound = map.get(id).getPassword();
 		if(!passwordFound.equals(password)) {
-			throw new Exception("Password incorrect");
+			throw new Exception("Password is incorrect.");
 		}
 		currentAuth = map.get(id).getAuthorization();
 		userId = id;
-		
+
+
+
 	}
 
 }

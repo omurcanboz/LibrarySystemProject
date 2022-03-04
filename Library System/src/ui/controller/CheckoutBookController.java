@@ -13,6 +13,7 @@ import business.BookCopy;
 import business.CheckoutDetails;
 import business.CheckoutEntry;
 import business.LibraryMember;
+import business.OverdueDetails;
 import dataaccess.DataAccessFacade;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -64,6 +65,24 @@ public class CheckoutBookController extends Stage {
   private TableColumn<CheckoutDetails, String> oTableMember;
   @FXML
   private TableColumn<CheckoutDetails, String> oTableDue;
+  @FXML
+  private TableView<OverdueDetails> ovTable;
+  @FXML
+  private TableColumn<OverdueDetails, String> ovTableISBN;
+  @FXML
+  private TableColumn<OverdueDetails, String> ovTableTitle;
+  @FXML
+  private TableColumn<OverdueDetails, String> ovTableMemberID;
+  @FXML
+  private TableColumn<OverdueDetails, String> ovTableMemberName;
+  @FXML
+  private TableColumn<OverdueDetails, String> ovTableMemberLastName;
+  @FXML
+  private TableColumn<OverdueDetails, String> ovTableCheck;
+  @FXML
+  private TableColumn<OverdueDetails, String> ovTableDue;
+  @FXML
+  private TableColumn<OverdueDetails, String> ovTableLateFee;
 
   Alert alertError = new Alert(AlertType.ERROR);
   Alert alertSuccess = new Alert(AlertType.INFORMATION);
@@ -95,7 +114,7 @@ public class CheckoutBookController extends Stage {
           if (bookCopy != null) {
             books.put(theBook.getIsbn(), theBook);
             CheckoutEntry entry = ObjectFactory.newCheckOutEntry(bookCopy, new Date(),
-                calculateDueDate(theBook.getMaxCheckoutLength(), new Date()));
+                    calculateDueDate(theBook.getMaxCheckoutLength(), new Date()));
             theMember.getCheckoutRecord().getCheckoutEntries().add(entry);
             libraryMembers.put(theMember.getMemberId(), theMember);
 
@@ -182,7 +201,7 @@ public class CheckoutBookController extends Stage {
     for (CheckoutEntry entry : entries) {
       Book book = entry.getBookCopy().getBook();
       CheckoutDetails details = new CheckoutDetails(book.getIsbn(), book.getTitle(), entry.getBookCopy().getCopyNum(),
-          entry.getCheckoutDate(), entry.getDueDate());
+              entry.getCheckoutDate(), entry.getDueDate());
       list.add(details);
     }
     checkoutRecordTable.getItems().setAll(list);
@@ -203,17 +222,45 @@ public class CheckoutBookController extends Stage {
       LibraryMember member = entry.getValue();
       for (CheckoutEntry checkoutEntry : member.getCheckoutRecord().getCheckoutEntries()) {
         if (checkoutEntry.getBookCopy().getBook().getIsbn().equals(ISBN) && !checkoutEntry.getBookCopy().isAvailable()
-            && new Date().compareTo(checkoutEntry.getDueDate()) > 0) {
+                && new Date().compareTo(checkoutEntry.getDueDate()) > 0) {
           Book book = checkoutEntry.getBookCopy().getBook();
           BookCopy bookCopy = checkoutEntry.getBookCopy();
           String memberFullname = member.getFirstName() + " " + member.getLastName();
           list.add(new CheckoutDetails(book.getIsbn(), book.getTitle(), bookCopy.getCopyNum(), memberFullname,
-              checkoutEntry.getDueDate()));
+                  checkoutEntry.getDueDate()));
         }
         oTable.getItems().setAll(list);
       }
     }
 
   }
-  
+
+  public void listAllOverdueBooks(ActionEvent event) {
+    ovTableISBN.setCellValueFactory(new PropertyValueFactory<OverdueDetails, String>("isbn"));
+    ovTableTitle.setCellValueFactory(new PropertyValueFactory<OverdueDetails, String>("title"));
+    ovTableMemberID.setCellValueFactory(new PropertyValueFactory<OverdueDetails, String>("memberId"));
+    ovTableMemberName.setCellValueFactory(new PropertyValueFactory<OverdueDetails, String>("memberName"));
+    ovTableMemberLastName.setCellValueFactory(new PropertyValueFactory<OverdueDetails, String>("memberLastName"));
+    ovTableCheck.setCellValueFactory(new PropertyValueFactory<OverdueDetails, String>("checkoutDate"));
+    ovTableDue.setCellValueFactory(new PropertyValueFactory<OverdueDetails, String>("dueDate"));
+    ovTableLateFee.setCellValueFactory(new PropertyValueFactory<OverdueDetails, String>("lateFee"));
+
+    DataAccessFacade daf = new DataAccessFacade();
+    HashMap<String, LibraryMember> members = daf.readMemberMap();
+    List<OverdueDetails> list = new ArrayList<>();
+    for (Entry<String, LibraryMember> entry : members.entrySet()) {
+      LibraryMember member = entry.getValue();
+      for(CheckoutEntry checkoutEntry : member.getCheckoutRecord().getCheckoutEntries()) {
+        if(!checkoutEntry.getBookCopy().isAvailable() && new Date().compareTo(checkoutEntry.getDueDate()) > 0) {
+          Book book = checkoutEntry.getBookCopy().getBook();
+          BookCopy bookCopy = checkoutEntry.getBookCopy();
+          //String memberFullname = member.getFirstName() + " " + member.getLastName();
+          list.add(new OverdueDetails(book.getIsbn(), book.getTitle(), member.getMemberId(), member.getFirstName(),
+                  member.getLastName(), checkoutEntry.getCheckoutDate(), checkoutEntry.getDueDate()));
+        }
+        ovTable.getItems().setAll(list);
+      }
+    }
+  }
+
 }
