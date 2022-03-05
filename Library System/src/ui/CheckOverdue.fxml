@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.*?>
+
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.GridPane?>
-
-
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <AnchorPane prefHeight="600.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.CheckoutBookController">
-   <children>
-      <TextField fx:id="overdueISBN" layoutX="104.0" layoutY="71.0" prefHeight="25.0" prefWidth="216.0" />
-      <Button layoutX="338.0" layoutY="71.0" mnemonicParsing="false" onAction="#checkOverdueBooks" text="Submit" />
-      <Label layoutX="34.0" layoutY="29.0" text="Check Overdue Books">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="34.0" layoutY="75.0" text="ISBN" />
-      <TableView fx:id="oTable" layoutX="34.0" layoutY="111.0" prefHeight="440.0" prefWidth="512.0">
-        <columns>
-          <TableColumn fx:id="oTableISBN" prefWidth="87.0" text="ISBN" />
-          <TableColumn fx:id="oTableTitle" prefWidth="165.0" text="Title" />
-            <TableColumn fx:id="oTableCopy" prefWidth="56.0" text="Copy #" />
-            <TableColumn fx:id="oTableMember" prefWidth="109.0" text="Member" />
-            <TableColumn fx:id="oTableDue" prefWidth="93.0" text="Due Date" />
-        </columns>
-      </TableView>
-   </children>
+    <children>
+        <TextField fx:id="overdueISBN" layoutX="104.0" layoutY="71.0" prefHeight="25.0" prefWidth="216.0" />
+        <Button layoutX="34.0" layoutY="561.0" mnemonicParsing="false" onAction="#backToMain" text="Back to Main" />
+        <Button layoutX="338.0" layoutY="71.0" mnemonicParsing="false" onAction="#checkOverdueBooks" text="Submit" />
+        <Label layoutX="34.0" layoutY="29.0" text="Check Overdue Books">
+            <font>
+                <Font name="System Bold" size="15.0" />
+            </font>
+        </Label>
+        <Label layoutX="34.0" layoutY="75.0" text="ISBN" />
+        <TableView fx:id="oTable" layoutX="34.0" layoutY="111.0" prefHeight="440.0" prefWidth="512.0">
+            <columns>
+                <TableColumn fx:id="oTableISBN" prefWidth="87.0" text="ISBN" />
+                <TableColumn fx:id="oTableTitle" prefWidth="165.0" text="Title" />
+                <TableColumn fx:id="oTableCopy" prefWidth="56.0" text="Copy #" />
+                <TableColumn fx:id="oTableMember" prefWidth="109.0" text="Member" />
+                <TableColumn fx:id="oTableDue" prefWidth="93.0" text="Due Date" />
+            </columns>
+        </TableView>
+    </children>
 </AnchorPane>

@@ -71,5 +71,4 @@ public class BookCopyController extends Stage {
     return true;
   }
 
-
 }

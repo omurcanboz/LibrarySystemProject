@@ -54,6 +54,8 @@ public class BookController extends Stage {
   Alert alertError = new Alert(AlertType.ERROR);
   public static String addedBook;
 
+  public static Book book = null;
+
   public boolean addNewBook(ActionEvent event) {
     String isbn = SerialNum.getText();
     String title = Title.getText();
@@ -77,9 +79,8 @@ public class BookController extends Stage {
     DataAccessFacade da = new DataAccessFacade();
     HashMap<String, Book> books = da.readBooksMap();
 
-    BookCopyController copyController = new BookCopyController();
     int numOfCopies = Integer.parseInt(numCopies);
-    Book book = DataUtility.getBook(books, isbn);
+    book = DataUtility.getBook(books, isbn);
 
     if (book != null) {
       alertInfo.setContentText("The ISBN number already exist!");
@@ -88,20 +89,12 @@ public class BookController extends Stage {
     }
 
     book = ObjectFactory.newBook(isbn, title, checkOutMaxLen, new ArrayList<>());
-    books.put(book.getIsbn(), book);
-    da.saveBooks(books);
 
-    return copyController.addCopiesAndSave(da, books, book, numOfCopies < 2 ? 1 : numOfCopies - 1);
-  }
-
-  public void backToLogin(ActionEvent event) {
-    try {
-      LoginController.showLoginScreen(event);
-
-    } catch (Exception e) {
-      alertError.setContentText(e.getMessage());
-      alertError.show();
+    for (int i = 0; i < numOfCopies - 1; i++) {
+      book.addCopy();
     }
+
+    return true;
   }
 
   public void saveAndgoToAuthorScreen(ActionEvent event) {
@@ -152,24 +145,23 @@ public class BookController extends Stage {
     Address address = ObjectFactory.newAddress(street, city, state, zip);
     Author author = ObjectFactory.newAuthor(firstName, lastName, phoneNumber, address, biography);
 
-    DataAccessFacade da = new DataAccessFacade();
-    HashMap<String, Book> books = da.readBooksMap();
-
-    Book book = DataUtility.getBook(books, addedBook);
     if(book == null) {
       alertInfo.setContentText("The book does not exist!");
       alertInfo.show();
       return false;
     }
     book.getAuthors().add(author);
-    books.put(book.getIsbn(), book);
-    da.saveBooks(books);
+
     return true;
   }
 
   public void saveAuthorEvent(ActionEvent event) {
     try {
       if (saveAuthor()) {
+        DataAccessFacade da = new DataAccessFacade();
+        HashMap<String, Book> books = da.readBooksMap();
+        books.put(book.getIsbn(), book);
+        da.saveBooks(books);
         alertInfo.setContentText("Book and authors added succesfully!");
         alertInfo.show();
         alertInfo.setOnCloseRequest(e -> {

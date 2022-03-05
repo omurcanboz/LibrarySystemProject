@@ -1,12 +1,9 @@
 package ui.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
+import java.util.stream.Stream;
 
 import business.Book;
 import business.BookCopy;
@@ -21,11 +18,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import utility.DataUtility;
@@ -151,26 +145,51 @@ public class CheckoutBookController extends Stage {
     String memId = memberId.getText();
     DataAccessFacade daf = new DataAccessFacade();
     HashMap<String, LibraryMember> members = daf.readMemberMap();
-    List<CheckoutEntry> list = null;
 
-    if (memId != null && !memId.isEmpty() && DataUtility.getLibraryMember(members, memId) != null) {
+    for (Entry<String, LibraryMember> entry : members.entrySet()) {
+      String entryId = entry.getKey();
+      LibraryMember member =entry.getValue();
+      if(entryId.equals(memId)) {
+        int count = 1;
+        String[][] table = new String[member.getCheckoutRecord().getCheckoutEntries().size() + 1][5];
+        table[0][0] = "ISBN";
+        table[0][1] = "Title";
+        table[0][2] = "Copy Number";
+        table[0][3] = "Checkout Date";
+        table[0][4] = "Due Date";
+        for(CheckoutEntry checkoutEntry : member.getCheckoutRecord().getCheckoutEntries()) {
+          table[count][0] = checkoutEntry.getBookCopy().getBook().getIsbn();
+          table[count][1] = checkoutEntry.getBookCopy().getBook().getTitle();
+          table[count][2] = String.valueOf(checkoutEntry.getBookCopy().getCopyNum());
+          table[count][3] = checkoutEntry.getCheckoutDate().toString();
+          table[count][4] = checkoutEntry.getDueDate().toString();
+          count++;
+        }
+        Map<Integer, Integer> columnLengths = new HashMap<>();
+        Arrays.stream(table).forEach(a -> Stream.iterate(0, (i -> i < a.length), (i -> ++i)).forEach(i -> {
+          if (columnLengths.get(i) == null) {
+            columnLengths.put(i, 0);
+          }
+          if (columnLengths.get(i) < a[i].length()) {
+            columnLengths.put(i, a[i].length());
+          }
+        }));
 
-      list = DataUtility.getCheckoutEntries(members, memId);
-
-      Node node = (Node) event.getSource();
-      Stage thisStage = (Stage) node.getScene().getWindow();
-      thisStage.close();
-      try {
-        setScene(HelperUtility.createScene(event, getClass(), "../ShowCheckoutRecord.fxml"));
-        setTitle("Member's Checkout Record Details");
-        showCheckoutRecord(list);
-        show();
-      } catch (IOException e1) {
-        e1.printStackTrace();
+        final StringBuilder formatString = new StringBuilder("");
+        String flag = "";
+        columnLengths.entrySet().stream().forEach(e -> formatString.append("| %" + flag + e.getValue() + "s "));
+        formatString.append("|\n");
+        Stream.iterate(0, (i -> i < table.length), (i -> ++i))
+                .forEach(a -> System.out.printf(formatString.toString(), table[a]));
       }
-
     }
 
+    alertSuccess.setContentText("Member checkout details printed successfully!");
+    alertSuccess.show();
+    alertSuccess.setOnCloseRequest( e -> {
+      if (alertSuccess.getResult() == ButtonType.OK) {
+        backToMain(event);
+      }});
   }
 
   public void showCheckoutRecord(List<CheckoutEntry> entries) {
@@ -201,20 +220,25 @@ public class CheckoutBookController extends Stage {
     HashMap<String, LibraryMember> members = daf.readMemberMap();
     List<CheckoutDetails> list = new ArrayList<>();
     for (Entry<String, LibraryMember> entry : members.entrySet()) {
-      LibraryMember member = entry.getValue();
-      for (CheckoutEntry checkoutEntry : member.getCheckoutRecord().getCheckoutEntries()) {
-        if (checkoutEntry.getBookCopy().getBook().getIsbn().equals(ISBN) && !checkoutEntry.getBookCopy().isAvailable()
+      LibraryMember member =entry.getValue();
+      for(CheckoutEntry checkoutEntry : member.getCheckoutRecord().getCheckoutEntries()) {
+        if(checkoutEntry.getBookCopy().getBook().getIsbn().equals(ISBN)
+                && !checkoutEntry.getBookCopy().isAvailable()
                 && new Date().compareTo(checkoutEntry.getDueDate()) > 0) {
           Book book = checkoutEntry.getBookCopy().getBook();
           BookCopy bookCopy = checkoutEntry.getBookCopy();
           String memberFullname = member.getFirstName() + " " + member.getLastName();
-          list.add(new CheckoutDetails(book.getIsbn(), book.getTitle(), bookCopy.getCopyNum(), memberFullname,
-                  checkoutEntry.getDueDate()));
+          list.add(new CheckoutDetails(book.getIsbn(), book.getTitle(),
+                  bookCopy.getCopyNum(), memberFullname, checkoutEntry.getDueDate()));
         }
         oTable.getItems().setAll(list);
       }
     }
 
+  }
+
+  public void backToMain(ActionEvent event) {
+    HelperUtility.backToMain(event);
   }
 
 }
