@@ -72,7 +72,7 @@ public class CheckoutBookController extends Stage {
     Book theBook = null;
     LibraryMember theMember = null;
 
-    if (id.isEmpty() && ISBN.isEmpty()) {
+    if (id.isEmpty() || ISBN.isEmpty()) {
       alertError.setContentText("All fields are required!");
       alertError.show();
     } else {
