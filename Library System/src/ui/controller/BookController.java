@@ -80,6 +80,9 @@ public class BookController extends Stage {
     HashMap<String, Book> books = da.readBooksMap();
 
     int numOfCopies = Integer.parseInt(numCopies);
+    if(numOfCopies < 2) {
+      numOfCopies = 1;
+    }
     book = DataUtility.getBook(books, isbn);
 
     if (book != null) {

@@ -43,7 +43,7 @@ public class BookCopyController extends Stage {
           alertError.show();
         } else {
           Integer bookCopies = Integer.parseInt(copyNumbers.getText());
-          if (addCopiesAndSave(da, books, DataUtility.getBook(books, isbnNum), bookCopies)) {
+          if (addCopiesAndSave(da, books, DataUtility.getBook(books, isbnNum), bookCopies < 2 ? 1 : bookCopies)) {
             alertSuccess.setContentText("Book copies added succesfully!");
             alertSuccess.show();
             alertSuccess.setOnCloseRequest(e -> {
