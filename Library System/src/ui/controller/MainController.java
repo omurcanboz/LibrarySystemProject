@@ -5,6 +5,7 @@ import dataaccess.Auth;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,11 +15,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ui.Start;
 import utility.HelperUtility;
 
 public class MainController extends Stage {
+
 
   @FXML
   private TabPane mainTabPane;
@@ -52,6 +58,7 @@ public class MainController extends Stage {
       setScene(scene);
       setTitle("Library System");
       welcomeLabel.setText("Welcome " + SystemController.userId);
+
 
       show();
     } catch (Exception e1) {

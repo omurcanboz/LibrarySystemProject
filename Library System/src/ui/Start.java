@@ -52,13 +52,6 @@ public class Start extends Application {
 		topContainer.setId("top-container");
 		MenuBar mainMenu = new MenuBar();
 		VBox imageHolder = new VBox();
-		// Image image = new Image("ui/resource/library.jpg", 400, 300, false, false);
-
-        // simply displays in ImageView the image as is
-        ImageView iv = new ImageView();
-        // iv.setImage(image);
-        imageHolder.getChildren().add(iv);
-        imageHolder.setAlignment(Pos.CENTER);
         HBox splashBox = new HBox();
         Label splashLabel = new Label("Library Application");
         splashLabel.setFont(Font.font("Trajan Pro", FontWeight.BOLD, 20));
@@ -79,9 +72,8 @@ public class Start extends Application {
 
 		
 							
-		Scene scene = new Scene(topContainer, 420, 375);
+		Scene scene = new Scene(topContainer, 320, 250);
 		primaryStage.setScene(scene);
-		scene.getStylesheets().add(getClass().getResource("/ui/resource/library.css").toExternalForm());
 		primaryStage.show();
 	}
 	
