@@ -166,21 +166,31 @@ public class CheckoutBookController extends Stage {
           count++;
         }
         Map<Integer, Integer> columnLengths = new HashMap<>();
-        Arrays.stream(table).forEach(a -> Stream.iterate(0, (i -> i < a.length), (i -> ++i)).forEach(i -> {
-          if (columnLengths.get(i) == null) {
-            columnLengths.put(i, 0);
-          }
-          if (columnLengths.get(i) < a[i].length()) {
-            columnLengths.put(i, a[i].length());
-          }
-        }));
+
+
+        for (String[] strings : table) {
+          for(int i = 0; i < strings.length; i++) {
+            if (columnLengths.get(i) == null) {
+              columnLengths.put(i, 0);
+            }
+            if (columnLengths.get(i) < strings[i].length()) {
+              columnLengths.put(i, strings[i].length());
+            }
+          };
+        }
+
 
         final StringBuilder formatString = new StringBuilder("");
         String flag = "";
-        columnLengths.entrySet().stream().forEach(e -> formatString.append("| %" + flag + e.getValue() + "s "));
+        for (Entry<Integer, Integer> e : columnLengths.entrySet()) {
+          formatString.append("| %" + flag + e.getValue() + "s ");
+        }
         formatString.append("|\n");
-        Stream.iterate(0, (i -> i < table.length), (i -> ++i))
-                .forEach(a -> System.out.printf(formatString.toString(), table[a]));
+
+        for (int i = 0; i < table.length; i++) {
+          System.out.printf(formatString.toString(), table[i]);
+        }
+
       }
     }
 
